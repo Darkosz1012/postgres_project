@@ -1,27 +1,33 @@
-import React, {Component} from 'react';
-// import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+// import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.scss';
+import {useAuth, Role, logout} from './util/authProvider'
+import { Button } from 'react-bootstrap';
 
-class App extends Component {
-  render() {
+import LoginView from './views/login/LoginView';
+
+
+
+function App() {
+    const [logged] = useAuth();
+
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src="logo.svg" className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div className="wrapper">
+            {!logged && <>
+                <LoginView />
+            </>}
+            {logged && Role.getRole()!=="admin" && <>
+                user 
+                <Button onClick={logout}>Wyloguj</Button>
+            </>}
+            {logged && Role.getRole()==="admin" && <>
+                admin
+                <Button onClick={logout}>Wyloguj</Button>
+            </>}
+        </div>
     );
-  }
 }
+
 export default App;

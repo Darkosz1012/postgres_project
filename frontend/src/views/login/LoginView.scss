@@ -1,0 +1,14 @@
+.LoginView{
+    width: 40rem;
+    //height: 50rem;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    &__container{
+        border: 1px solid #dee2e6 ;
+        border-top: none;
+        padding: 1rem;
+    }
+}
