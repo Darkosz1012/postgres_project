@@ -15,7 +15,7 @@ mountRoutes(app)
 
 const jwt = require("jsonwebtoken");
 (async function run () {
-    console.log(jwt.sign({ username: "Admin", id_user: 1, role: "admin"}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1h' }));   
+    console.log(jwt.sign({ username: "Admin", id_user: 1, role: "admin"}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '10000h' }));   
 })()
 
 

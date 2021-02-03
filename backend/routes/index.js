@@ -5,6 +5,7 @@ const updateToken = require("./api/update-token")
 
 const user = require("./api/user")
 const status = require("./api/status")
+const restaurant = require("./api/restaurant")
 
 module.exports = app => {
     app.use('/api/login', login)
@@ -13,4 +14,5 @@ module.exports = app => {
 
     app.use('/api/user', user)
     app.use('/api/status', status)
+    app.use('/api/restaurant', restaurant)
 }
