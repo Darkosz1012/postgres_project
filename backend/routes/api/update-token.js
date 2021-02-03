@@ -5,11 +5,12 @@ const router = new Router()
 module.exports = router
 
 router.post('/', async (req, res) => {
-    const { refreshToken } = req.body;
+    let { refreshToken } = req.body;
     try{
         if(await jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET)){
+            const {username, id_user, role} = jwt.decode(refreshToken)
             const token = {
-                "accessToken": jwt.sign(jwt.decode(refreshToken), process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1m' }),
+                "accessToken": jwt.sign({ username: username, id_user: id_user, role: role}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '5s' }),
                 "refreshToken": refreshToken
             }
             res.json({

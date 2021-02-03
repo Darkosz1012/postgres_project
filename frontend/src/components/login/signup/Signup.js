@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login, Role } from "../../util/authProvider";
+import { login, Role } from "../../../util/authProvider";
 import { Form , Button } from 'react-bootstrap';
 import { decodeToken } from "react-jwt";
 
@@ -9,7 +9,7 @@ export default function Login() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        fetch('/api/login', {
+        fetch('/api/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export default function Login() {
                 <Form.Control type="password" placeholder="Hasło" onChange={e => setPassword(e.target.value)} />
             </Form.Group>
             <Button variant="primary" type="submit">
-                Zaloguj się
+                Zarejestruj się
             </Button>
         </Form>
     )

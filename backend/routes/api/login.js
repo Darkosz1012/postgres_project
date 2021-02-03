@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
         const user = rows[0];
         if (verify(password, user.password)) {
             const token = {
-                "accessToken": jwt.sign({ username: user.username, id_user: user.id_user, role: user.role}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1m' }),
+                "accessToken": jwt.sign({ username: user.username, id_user: user.id_user, role: user.role}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '5s' }),
                 "refreshToken": jwt.sign({ username: user.username, id_user: user.id_user, role: user.role}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
             }
             res.json({

@@ -1,8 +1,8 @@
 import React from 'react';
 import "./LoginView.scss";
 import { Tabs, Tab } from 'react-bootstrap';
-import Login from '../../components/login/Login';
-import Signup from '../../components/signup/Signup';
+import Login from './login/Login';
+import Signup from './signup/Signup';
 export default function LoginView() {
 	return (
 		<div className="LoginView">

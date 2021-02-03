@@ -5,8 +5,8 @@ import './App.scss';
 import {useAuth, Role, logout} from './util/authProvider'
 import { Button } from 'react-bootstrap';
 
-import LoginView from './views/login/LoginView';
-
+import LoginView from './components/login/LoginView';
+import AdminView from './components/adminView/AdminView';
 
 
 function App() {
@@ -23,8 +23,8 @@ function App() {
                 <Button onClick={logout}>Wyloguj</Button>
             </>}
             {logged && Role.getRole()==="admin" && <>
-                admin
-                <Button onClick={logout}>Wyloguj</Button>
+                <AdminView/>
+                
             </>}
         </div>
     );
