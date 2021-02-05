@@ -11,9 +11,9 @@ router.post('/', async (req, res) => {
     try{
         const { rows } = await db.query('SELECT * FROM public.users WHERE username = $1', [username])
         const user = rows[0];
-        if (verify(password, user.password)) {
+        if (await verify(password, user.password)) {
             const token = {
-                "accessToken": jwt.sign({ username: user.username, id_user: user.id_user, role: user.role}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '5s' }),
+                "accessToken": jwt.sign({ username: user.username, id_user: user.id_user, role: user.role}, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1m' }),
                 "refreshToken": jwt.sign({ username: user.username, id_user: user.id_user, role: user.role}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
             }
             res.json({

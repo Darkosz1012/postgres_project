@@ -7,3 +7,7 @@ td{
 	max-width: 50vw !important;
 	word-wrap: break-word;
 }
+
+.navbar-expand .navbar-nav {
+    flex-wrap: wrap;
+}

@@ -1,75 +1,72 @@
 import {useState, useEffect} from 'react';
 import { Table } from 'react-bootstrap';
-import { authFetch } from '../../../util/authProvider'
 import { Button, Modal, Form } from 'react-bootstrap';
+import { useAlert } from 'react-alert'
+import * as query from "../../../util/baseQuery";
 
 export function UserTable() {
-
+    const alert = useAlert();
     const [state, setState] = useState([])
+    const [id_user, setIdUser] = useState(0);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
     const [show, setShow] = useState(false)
+    const [action, setAction] = useState("")
 
     useEffect(() => {
-        getUser();
+        getData();
     }, [])
     
 
     const handleClose = () => setShow(false);
-    const handleShow = (action,row) =>{ 
-        console.log(row)
+    const handleShow = (action,row,e) =>{ 
+        setIdUser(row.id_user || 0)
         setUsername(row.username || "");
         setPassword("");
         setRole(row.role || "");
+
+        setAction(action);
         setShow(true);
     };
+
+    const handleSave = () => {
+        setShow(false)
+        if(action == "Edytuj"){
+            updateItem({id_user, username,password,role})
+        }
+        if(action == "Dodaj"){
+            addItem({username,password,role})
+        }
+    }
     
-    const getUser = () =>{
-        authFetch(`/api/user`)
-        .then(r => r.json())
-        .then(data => {
-            setState(data.res)
-        })
+    const getData = () => {
+        query.getData("/api/user",alert).then(res=>{
+            setState(res)
+        });
     }
 
-    const addUser = (data) =>{ 
-        authFetch(`/api/user`,{
-            method:"POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(r => r.json())
-        .then(data => {
-            getUser();
-        })
+    const addItem = (data) => {
+        query.addItem("/api/user",alert,data).then(res=>{
+            getData()
+        });
     };
 
-    const updateUser = (data) =>{ 
-        authFetch(`/api/user/${data.id_user}`,{
-            method:"PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(r => r.json())
-        .then(data => {
-            getUser();
-        })
+    const updateItem = (data) => {
+        query.updateItem(`/api/user/${data.id_user}`,alert,data).then(res=>{
+            getData()
+        });
     };
 
-    const deleteUser = (id) =>{ 
-        authFetch(`/api/user/${id}`,{
-            method:"DELETE"
-        })
-        .then(r => r.json())
-        .then(data => {
-            getUser();
-        })
+    const deleteItem = (id) => {
+        query.deleteItem(`/api/user/${id}`,alert,{}).then(res=>{
+            getData()
+        });
     };
+
+    if(!Array.isArray(state)){
+        return (<></>)
+    }
     return (
         <>
         <Table responsive striped bordered hover size="md">
@@ -93,7 +90,7 @@ export function UserTable() {
                         <Button variant="primary" onClick={handleShow.bind(this,"Edytuj",row)}>
                             Edytuj
                         </Button>
-                        <Button variant="danger" onClick={deleteUser.bind(this,row.id_user)}>
+                        <Button variant="danger" onClick={deleteItem.bind(this,row.id_user)}>
                             Usuń
                         </Button>
                         </td>
@@ -106,7 +103,7 @@ export function UserTable() {
         </Button>
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>{action}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form >
@@ -131,7 +128,7 @@ export function UserTable() {
             <Button variant="secondary" onClick={handleClose}>
                 Anuluj
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleSave}>
                 Zapisz
             </Button>
             </Modal.Footer>

@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 
 import LoginView from './components/login/LoginView';
 import AdminView from './components/adminView/AdminView';
+import UserView from './components/userView/UserView';
 
 
 function App() {
@@ -19,8 +20,7 @@ function App() {
                 <LoginView />
             </>}
             {logged && Role.getRole()!=="admin" && <>
-                user 
-                <Button onClick={logout}>Wyloguj</Button>
+                <UserView/>
             </>}
             {logged && Role.getRole()==="admin" && <>
                 <AdminView/>

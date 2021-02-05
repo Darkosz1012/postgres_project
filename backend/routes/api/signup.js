@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     const { username, password } = req.body
     console.log(req.body)
     try{
-        const result = await db.query(`INSERT INTO "public"."users" ("username", "password") VALUES ($1, $2)`, [username, await hash(password)])
+        // const result = await db.query(`INSERT INTO "public"."users" ("username", "password") VALUES ($1, $2)`, [username, await hash(password)])
         const { rows } = await db.query('SELECT * FROM public.users WHERE username = $1', [username])
         const user = rows[0];
         const token = {

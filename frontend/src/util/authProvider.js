@@ -37,3 +37,23 @@ export var Role = (function () {
         }
     };
 })();
+
+export var UserId = (function () {
+    var _id_user = '';
+
+    if(localStorage.getItem("REACT_TOKEN_AUTH_KEY")){
+        var tokens = JSON.parse(localStorage.getItem("REACT_TOKEN_AUTH_KEY"))
+        console.log(tokens.accessToken)
+        _id_user = decodeToken(tokens.accessToken).id_user;
+        console.log(_id_user);
+    }
+
+    return {
+        setUserId : function (id_user) {
+            _id_user = id_user;
+        },
+        getUserId : function () {
+            return _id_user;
+        }
+    };
+})();
